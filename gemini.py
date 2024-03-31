@@ -136,19 +136,25 @@ def generate_response(prompt):
 while True:
     datamap = db.GET("ASAP", "Outgoing")
     data_map_string= datamap.get("documents")[0].get("data")
+    boolean_read = datamap.get("documents")[1].get("proximityReached")
+    if(boolean_read):
     #print(data_map_string)
-    decoded_image = base64.b64decode(data_map_string)
-        # Convert image data to numpy array
-    nparr = np.frombuffer(decoded_image, np.uint8)
-        # Decode numpy array to image
-    image_file=tempfile.mktemp(suffix='.jpg')
-    with open(image_file, "wb") as temp_image_file:
-        temp_image_file.write(decoded_image)
-    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    cv2.imshow("haha", image)
-    cv2.waitKey(1)
+        decoded_image = base64.b64decode(data_map_string)
+            # Convert image data to numpy array
+        nparr = np.frombuffer(decoded_image, np.uint8)
+            # Decode numpy array to image
+        image_file=tempfile.mktemp(suffix='.jpg')
+        with open(image_file, "wb") as temp_image_file:
+            temp_image_file.write(decoded_image)
+        image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        cv2.imshow("haha", image)
+        cv2.waitKey(1)
+        image2 = Image.load_from_file(image_file)
+        print("test")
+        strn = generate_response([image2,"Describe what is in front of you in one line"])
 
-    image2 = Image.load_from_file(image_file)
-    print(generate_response([image2, "Describe this video"]))
+        db.PATCH("ASAP", "Incoming",{"_id":{"$oid":"66092ec48342d8f856981c8f"}},{"Return text":strn})
+       # print("This is a video. I like videos. Woo!")
+
 
 
