@@ -4,7 +4,7 @@ import json
 import os
 
 #load_dotenv("dh2024.env")
-api_key = "uN5a52qg3b50g9uIJBUZO2YFrZP9dZuo3W8mGi2Gk9DivUa1kjXAFlXF0BzbTLid"
+
 
 def GET(database,collection):
     url = "https://us-east-1.aws.data.mongodb-api.com/app/data-sikvi/endpoint/data/v1/action/find"
